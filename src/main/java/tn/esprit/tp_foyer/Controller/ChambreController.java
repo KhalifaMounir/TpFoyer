@@ -12,27 +12,26 @@ import java.util.List;
 public class ChambreController {
     IChambreServices chambreService;
 
-    @GetMapping("/getAllChambres")
-    public List<Chambre> retrieveAllChambres() {
-        return chambreService.retrieveAllChambres();
+    @GetMapping("/nonReserve/{nomUniversite}/{type}")
+    public List<Chambre> getChambresNonReservees(
+            @PathVariable String nomUniversite,
+            @PathVariable TypeChambre type) {
+        return chambreService.getChambresNonReserveParNomUniversiteEtTypeChambre(nomUniversite, type);
     }
 
-
-    @GetMapping("/getById/{id}")
-    public Chambre retrieveChambre(@PathVariable("id") long idChambre) {
-        return chambreService.retrieveChambre(idChambre);
+    @GetMapping("/bloc/{idBloc}/{type}")
+    public List<Chambre> getChambresParBlocEtType(
+            @PathVariable long idBloc,
+            @PathVariable TypeChambre type) {
+        return chambreService.getChambresParBlocEtType(idBloc, type);
     }
 
-
-    @PostMapping("/addChambre")
-    public Chambre addChambre(@RequestBody Chambre chambre) {
-        return chambreService.addChambre(chambre);
+    @GetMapping("/bloc-keywords/{idBloc}/{type}")
+    public List<Chambre> getChambresParBlocEtTypeKeywords(
+            @PathVariable long idBloc,
+            @PathVariable TypeChambre type) {
+        return chambreService.getChambresParBlocEtTypeKeywords(idBloc, type);
     }
+}
 
-    // Mettre à jour une chambre existante
-    @PutMapping("/updateChambre/{id}")
-    public Chambre updateChambre(@PathVariable("id") long idChambre, @RequestBody Chambre chambre) {
-
-        return chambreService.updateChambre(chambre);
-    }
 }

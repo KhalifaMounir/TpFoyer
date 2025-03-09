@@ -1,32 +1,33 @@
-package tn.esprit.tp_foyer.service;
+package tn.esprit.tp_foyer.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.tp_foyer.entity.Reservation;
-import tn.esprit.tp_foyer.repository.ReservationRepository;
+import tn.esprit.tp_foyer.Repository.ReservationRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class ReservationService {
+@AllArgsConstructor
+public class ReservationServiceImpl implements IReservationServices{
 
-    @Autowired
-    private ReservationRepository reservationRepository;
+    IReservationRepository reservationRepository;
 
+    @Override
     public List<Reservation> retrieveAllReservation() {
-        return reservationRepository.findAll();
+        return (List<Reservation>) reservationRepository.findAll();
     }
 
+    @Override
     public Reservation updateReservation(Reservation res) {
-        if (reservationRepository.existsById(res.getIdReservation())) {
+        if (reservationRepository.existsById(Long.valueOf(res.getIdReservation()))) {
             return reservationRepository.save(res);
         }
         return null;
     }
 
-    public Reservation retrieveReservation(String idReservation) {
-        Optional<Reservation> reservation = reservationRepository.findById(idReservation);
-        return reservation.orElse(null);
+    @Override
+    public Reservation retrieveReservation(Long idReservation) {
+        return reservationRepository.findById(idReservation).orElse(null);
     }
 }
